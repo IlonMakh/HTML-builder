@@ -10,6 +10,7 @@ async function readDir(folder) {
             if (err) {
                 throw err;
             }
+            
             if (stats.isFile()) {
                 console.log (`${path.basename(file, path.extname(file))} - ${path.extname(file).slice(1)} - ${stats.size}b`);
             }
