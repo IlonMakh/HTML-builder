@@ -19,10 +19,12 @@ async function buildPage() {
     let templateContent = await fs.promises.readFile(templateFilePath, 'utf-8');
     let components = await fs.promises.readdir(componentsPath);
         for(let i = 0; i < components.length; i++) {
-            let componentContent = await fs.promises.readFile(path.resolve(componentsPath, components[i]), 'utf-8');
-            let componentName = path.basename(components[i], path.extname(components[i]));
-            var htmlContent = templateContent.replace(`{{${componentName}}}`, componentContent);
-            templateContent = htmlContent;
+            if(path.extname(components[i]) === '.html') {
+                let componentContent = await fs.promises.readFile(path.resolve(componentsPath, components[i]), 'utf-8');
+                let componentName = path.basename(components[i], path.extname(components[i]));
+                var htmlContent = templateContent.replace(`{{${componentName}}}`, componentContent);
+                templateContent = htmlContent;
+            }
         }
     await fs.writeFile(
         projectHTMLPath,
